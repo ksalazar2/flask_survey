@@ -13,4 +13,4 @@ def survey_start():
     title = surveys.satisfaction_survey.title
     instructions = surveys.satisfaction_survey.instructions
 
-    return render_template('base.html', survey_title = title, survey_instructions = instructions)
+    return render_template('home_page.html', survey_title = title, survey_instructions = instructions)

@@ -10,7 +10,8 @@
 
 <body>
     <h1>{{ survey_title }}</h1>
-    <p>{{ survey_instructions }}</p>
+    <p>{% block details %}INSTRUCTIONS/QUESTIONS{% endblock %}</p>
+    <div>{% block buttons %}START/NEXT/PREV BUTTONS{% endblock %}</div>
 </body>
 
 </html>
