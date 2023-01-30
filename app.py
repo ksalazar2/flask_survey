@@ -26,3 +26,13 @@ def show_question(qnum):
         choices = ['Yes', 'No']
     
     return render_template('question_page.html', survey_title = title, survey_question = question, survey_choices = choices)
+
+@app.route('/answer', methods=['POST'])
+def handle_answer():
+    answer = request.form['user_answer']
+    responses.append(answer)
+    num_ans = len(responses)
+    if num_ans < len(surveys.satisfaction_survey.questions):
+        next_question = '/questions/' + str(num_ans)
+        return redirect(next_question)
+    return redirect('/thankyou')
