@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, redirect, flash
 import surveys
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'plswork'
 
 # list containing user answers
 responses = []
@@ -22,9 +23,11 @@ def show_question(qnum):
     title = surveys.satisfaction_survey.title
     if qnum != len(responses):
         next_question = '/questions/' + str(len(responses))
+        flash("Please do not attempt to access invalid questions")
         return redirect (next_question)
     
     if len(responses) == len(surveys.satisfaction_survey.questions):
+        flash("You have already completed the survey!")
         return redirect('/thankyou')
     
     question = surveys.satisfaction_survey.questions[qnum].question
