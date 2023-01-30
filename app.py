@@ -20,6 +20,13 @@ def show_question(qnum):
     """Show current question."""
     
     title = surveys.satisfaction_survey.title
+    if qnum != len(responses):
+        next_question = '/questions/' + str(len(responses))
+        return redirect (next_question)
+    
+    if len(responses) == len(surveys.satisfaction_survey.questions):
+        return redirect('/thankyou')
+    
     question = surveys.satisfaction_survey.questions[qnum].question
     choices = surveys.satisfaction_survey.questions[qnum].choices
     if choices is None:
