@@ -29,6 +29,7 @@ def show_question(qnum):
 
 @app.route('/answer', methods=['POST'])
 def handle_answer():
+    """Append answer to responses list and redirect user to next page."""
     answer = request.form['user_answer']
     responses.append(answer)
     num_ans = len(responses)
@@ -36,3 +37,10 @@ def handle_answer():
         next_question = '/questions/' + str(num_ans)
         return redirect(next_question)
     return redirect('/thankyou')
+
+@app.route('/thankyou')
+def show_thanks():
+    """Show Thank You Page."""
+    title = 'Thank you!'
+
+    return render_template('thank_you.html', title = title)
