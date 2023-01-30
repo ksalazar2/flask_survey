@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 
-{% block details %}{{ survey_instructions }}{% endblock %}
-
-{% block buttons %}
-<form action="/questions/0">
-    <input type="button" value="Start Survey">
-</form>
+{% block details %}
+<p>{{ survey_instructions }}</p>
+<div>
+    <form action="/questions/0">
+        <input type="submit" value="Start Survey">
+    </form>
+</div>
 {% endblock %}
