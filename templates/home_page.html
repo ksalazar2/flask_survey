@@ -3,7 +3,7 @@
 {% block details %}
 <p>{{ survey_instructions }}</p>
 <div>
-    <form action="/questions/0">
+    <form action="/start-survey" method="POST">
         <input type="submit" value="Start Survey">
     </form>
 </div>

@@ -1,11 +1,11 @@
-from flask import Flask, request, render_template, redirect, flash
+from flask import Flask, request, render_template, redirect, flash, session
 import surveys
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'plswork'
 
 # list containing user answers
-responses = []
+# responses = []
 
 @app.route('/')
 def survey_start():
@@ -21,12 +21,12 @@ def show_question(qnum):
     """Show current question."""
     
     title = surveys.satisfaction_survey.title
-    if qnum != len(responses):
-        next_question = '/questions/' + str(len(responses))
+    if qnum != len(session['responses']):
+        next_question = '/questions/' + str(len(session['responses']))
         flash("Please do not attempt to access invalid questions")
         return redirect (next_question)
     
-    if len(responses) == len(surveys.satisfaction_survey.questions):
+    if len(session['responses']) == len(surveys.satisfaction_survey.questions):
         flash("You have already completed the survey!")
         return redirect('/thankyou')
     
@@ -41,8 +41,10 @@ def show_question(qnum):
 def handle_answer():
     """Append answer to responses list and redirect user to next page."""
     answer = request.form['user_answer']
-    responses.append(answer)
-    num_ans = len(responses)
+    resp = session['responses']
+    resp.append(answer)
+    session['responses'] = resp
+    num_ans = len(session['responses'])
     if num_ans < len(surveys.satisfaction_survey.questions):
         next_question = '/questions/' + str(num_ans)
         return redirect(next_question)
@@ -54,3 +56,10 @@ def show_thanks():
     title = 'Thank you!'
 
     return render_template('thank_you.html', title = title)
+
+@app.route('/start-survey', methods=['POST'])
+def start_survey():
+    """Set session['responses'] to an empty list and start survey."""
+    session['responses'] = []
+
+    return redirect('/questions/0')
